@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MAISONS - Prototype</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loginScreen">
+    <h2>Connexion</h2>
+    <select id="userSelect">
+      <option value="">-- Sélectionner un utilisateur --</option>
+      <option value="alice">Alice</option>
+      <option value="bruno">Bruno</option>
+      <option value="carla">Carla</option>
+      <option value="daniel">Daniel</option>
+    </select>
+    <button onclick="login()">Se connecter</button>
+  </div>
+
+  <div id="appContainer" class="hidden">
+    <aside>
+      <h1>MAISONS</h1>
+      <p id="roleDisplay"></p>
+      <button id="logoutBtn" onclick="logout()">Se déconnecter</button>
+      <nav>
+        <button id="btn-dashboard" onclick="navigate('dashboard')">Tableau de bord</button>
+        <button id="btn-dossiers" onclick="navigate('dossiers')">Dossiers</button>
+        <button id="btn-documents" onclick="navigate('documents')">Documents</button>
+        <button id="btn-facturation" onclick="navigate('facturation')">Facturation</button>
+        <button id="btn-moderation" onclick="navigate('moderation')">Modération</button>
+      </nav>
+    </aside>
+    <main>
+      <div id="content">Bienvenue</div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
