@@ -102,3 +102,8 @@ function updateRole(userKey) {
     navigate("moderation");
   }
 }
+function logout() {
+  currentUser = null;
+  document.getElementById("appContainer").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+}
