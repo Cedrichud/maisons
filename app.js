@@ -8,7 +8,8 @@ const users = {
 
 let currentUser = null;
 
-const permissions = {
+// Permissions dynamiques par rôle
+const rolePermissions = {
   ADMINISTRATEUR: ["dashboard", "dossiers", "documents", "facturation", "moderation"],
   RESPONSABLE: ["dashboard", "dossiers", "documents"],
   COMMERCE: ["dashboard", "documents"]
@@ -28,28 +29,24 @@ function login() {
   }
 }
 
-function showAllowedSections() {
-  const rolePerms = permissions[currentUser.role];
-  const buttons = {
-    dashboard: document.getElementById("btn-dashboard"),
-    dossiers: document.getElementById("btn-dossiers"),
-    documents: document.getElementById("btn-documents"),
-    facturation: document.getElementById("btn-facturation"),
-    moderation: document.getElementById("btn-moderation"),
-  };
+function logout() {
+  currentUser = null;
+  document.getElementById("appContainer").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+}
 
-  for (let key in buttons) {
-    if (rolePerms.includes(key)) {
-      buttons[key].style.display = "block";
-    } else {
-      buttons[key].style.display = "none";
-    }
-  }
+function showAllowedSections() {
+  const rolePerms = rolePermissions[currentUser.role] || [];
+  const sections = ["dashboard", "dossiers", "documents", "facturation", "moderation"];
+  sections.forEach(section => {
+    const btn = document.getElementById("btn-" + section);
+    if (btn) btn.style.display = rolePerms.includes(section) ? "block" : "none";
+  });
 }
 
 function navigate(section) {
   if (!currentUser) return;
-  const rolePerms = permissions[currentUser.role];
+  const rolePerms = rolePermissions[currentUser.role];
   if (!rolePerms.includes(section)) {
     alert("Accès refusé pour cette section.");
     return;
@@ -78,7 +75,8 @@ function navigate(section) {
 }
 
 function generateModerationPanel() {
-  let html = '<h2>Modération des rôles</h2><table><tr><th>Utilisateur</th><th>Rôle</th><th>Nouveau rôle</th><th>Action</th></tr>';
+  let html = '<h2>Modération des rôles</h2>';
+  html += '<table><tr><th>Utilisateur</th><th>Rôle</th><th>Nouveau rôle</th><th>Action</th></tr>';
   for (let key in users) {
     html += '<tr><td>' + users[key].name + '</td><td>' + users[key].role + '</td>';
     html += '<td><select id="role-' + key + '">';
@@ -89,6 +87,20 @@ function generateModerationPanel() {
     html += '<td><button onclick="updateRole(\'' + key + '\')">Changer</button></td></tr>';
   }
   html += '</table>';
+
+  html += '<h2>Permissions par rôle</h2>';
+  html += '<table><tr><th>Rôle</th><th>Dashboard</th><th>Dossiers</th><th>Documents</th><th>Facturation</th><th>Modération</th></tr>';
+  for (let role in rolePermissions) {
+    html += '<tr><td>' + role + '</td>';
+    ["dashboard", "dossiers", "documents", "facturation", "moderation"].forEach(section => {
+      const checked = rolePermissions[role].includes(section) ? 'checked' : '';
+      html += '<td><input type="checkbox" id="perm-' + role + '-' + section + '" ' + checked + '></td>';
+    });
+    html += '</tr>';
+  }
+  html += '</table>';
+  html += '<button onclick="updatePermissions()">Sauvegarder les permissions</button>';
+
   return html;
 }
 
@@ -102,8 +114,19 @@ function updateRole(userKey) {
     navigate("moderation");
   }
 }
-function logout() {
-  currentUser = null;
-  document.getElementById("appContainer").classList.add("hidden");
-  document.getElementById("loginScreen").classList.remove("hidden");
+
+function updatePermissions() {
+  const newPerms = {};
+  ["ADMINISTRATEUR", "RESPONSABLE", "COMMERCE"].forEach(role => {
+    newPerms[role] = [];
+    ["dashboard", "dossiers", "documents", "facturation", "moderation"].forEach(section => {
+      if (document.getElementById("perm-" + role + "-" + section).checked) {
+        newPerms[role].push(section);
+      }
+    });
+  });
+  Object.assign(rolePermissions, newPerms);
+  alert("Permissions mises à jour.");
+  showAllowedSections();
+  navigate("dashboard");
 }
