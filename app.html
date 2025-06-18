@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>MAISONS - Tableau de bord</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    nav {
+      background-color: #002B5B;
+      color: white;
+      width: 220px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    nav h2 {
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      text-align: left;
+      padding: 10px 0;
+      cursor: pointer;
+    }
+    main {
+      flex: 1;
+      padding: 20px;
+    }
+    section {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <nav id="sidebar"></nav>
+  <main id="content">
+    <section id="dashboard">
+      <h1>Tableau de bord</h1>
+      <p>Bienvenue sur l'application MAISONS.</p>
+    </section>
+    <section id="dossiers">
+      <h1>Dossiers</h1>
+      <button onclick="alert('Créer un nouveau dossier')">Créer un dossier</button>
+    </section>
+    <section id="facturation">
+      <h1>Facturation</h1>
+      <p>Suivi de la facturation et des règlements clients.</p>
+    </section>
+    <section id="moderation">
+      <h1>Modération</h1>
+      <p>Attribuez les droits par rôle :</p>
+      <div id="permissions"></div>
+    </section>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

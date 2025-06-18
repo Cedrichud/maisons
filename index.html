@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion - MAISONS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #002B5B, #00509E);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 2rem;
+    }
+    button {
+      background-color: white;
+      color: #002B5B;
+      border: none;
+      padding: 1rem 2rem;
+      margin: 0.5rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bienvenue sur MAISONS</h1>
+  <p>Veuillez choisir votre nom :</p>
+  <div>
+    <button onclick="login('bruno')">Bruno</button>
+    <button onclick="login('julie')">Julie</button>
+    <button onclick="login('luc')">Luc</button>
+    <button onclick="login('marie')">Marie</button>
+  </div>
+
+  <script>
+    const defaultRoles = {
+      bruno: "ADMINISTRATEUR",
+      julie: "RESPONSABLE",
+      luc: "COMMERCE",
+      marie: "COMMERCE"
+    };
+
+    function login(name) {
+      localStorage.setItem("username", name);
+      localStorage.setItem("role", defaultRoles[name]);
+      window.location.assign("app.html");
+    }
+  </script>
+</body>
+</html>
